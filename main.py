@@ -4,7 +4,7 @@ from datetime import datetime
 from google import genai
 from google.genai import types
 
-# Initialize Gemini Client using Environment Secret
+# Initialize Gemini Client using environment variable
 gemini_client = genai.Client()
 
 def extract_nccia_data(raw_text: str) -> dict:
@@ -39,9 +39,8 @@ def extract_nccia_data(raw_text: str) -> dict:
     return json.loads(response.text)
 
 if _name_ == "_main_":
+    print(f"--- Running NCCIA Intelligence Agent [{datetime.now().strftime('%Y-%m-%d')}] ---")
     sample_raw_text = "NCCIA press update: Operations ongoing in Lahore and Karachi."
     extracted = extract_nccia_data(sample_raw_text)
     print("Extracted Data:", json.dumps(extracted, indent=2))
-    
-
 
