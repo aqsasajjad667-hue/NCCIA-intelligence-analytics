@@ -25,6 +25,5 @@ jobs:
       - name: Run Data Extraction Agent
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          NO_GCP: "true"
         run: |
           python main.py
