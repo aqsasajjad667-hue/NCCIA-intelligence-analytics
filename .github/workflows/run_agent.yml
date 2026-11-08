@@ -2,9 +2,8 @@ name: NCCIA Daily Intelligence Agent
 
 on:
   schedule:
-    # Roz subah 6:00 AM UTC par chalega
     - cron: '0 6 * * *'
-  workflow_dispatch:  # Manual button se run karne ke liye
+  workflow_dispatch:
 
 jobs:
   run-agent:
