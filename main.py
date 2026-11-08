@@ -43,4 +43,7 @@ if _name_ == "_main_":
     sample_raw_text = "NCCIA press update: Operations ongoing in Lahore and Karachi."
     extracted = extract_nccia_data(sample_raw_text)
     print("Extracted Data:", json.dumps(extracted, indent=2))
+    sample_raw_text = "NCCIA press update: Operations ongoing in Lahore and Karachi."
+    extracted = extract_nccia_data(sample_raw_text)
+    print("Extracted Data:", json.dumps(extracted, indent=2))
     
