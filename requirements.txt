@@ -1,0 +1,6 @@
+google-genai
+google-cloud-bigquery
+requests
+beautifulsoup4
+reportlab
+fpdf2
