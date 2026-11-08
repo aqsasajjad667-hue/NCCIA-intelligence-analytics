@@ -38,7 +38,7 @@ def extract_nccia_data(raw_text: str) -> dict:
     )
     return json.loads(response.text)
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     print(f"--- Running NCCIA Intelligence Agent [{datetime.now().strftime('%Y-%m-%d')}] ---")
     sample_raw_text = "NCCIA press update: Operations ongoing in Lahore and Karachi."
     extracted = extract_nccia_data(sample_raw_text)
