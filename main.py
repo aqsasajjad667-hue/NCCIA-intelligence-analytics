@@ -1,49 +1,50 @@
 import os
-import json
-from datetime import datetime
-from google import genai
-from google.genai import types
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+# Agar aap ke paas gemini ya koi aur library use ho rahi hai, wohi rehne dein
 
-# Initialize Gemini Client using environment variable
-gemini_client = genai.Client()
-
-def extract_nccia_data(raw_text: str) -> dict:
-    """Extracts structured metrics using Gemini API."""
-    prompt = f"""
-    Analyze the following official text/press release from NCCIA Pakistan 
-    and extract daily intelligence metrics.
+def send_email_report(report_content):
+    # GitHub Secrets se email credentials uthaye ga
+    sender_email = os.environ.get("EMAIL_USER")
+    sender_password = os.environ.get("EMAIL_PASSWORD")
+    receiver_email = sender_email  # Aap apni hi email par receive kar sakti hain
     
-    If any metric is missing, set its value strictly to "Not Reported".
+    if not sender_email or not sender_password:
+        print("Email credentials not found in environment variables!")
+        return
 
-    Extract metrics:
-    - Raids
-    - Arrests
-    - FIRs
-    - Complaints
-    - Cases Registered
-    - Financial Recoveries
-    - Cities Breakdown
-    - Cybercrime Trends
+    # Email message setup
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+    msg['Subject'] = "NCCIA Daily Intelligence Report"
 
-    Text:
-    {raw_text}
+    msg.attach(MIMEText(report_content, 'plain'))
+
+    try:
+        # Gmail SMTP server connection
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, receiver_email, msg.as_string())
+        server.quit()
+        print("Email report sent successfully!")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
+
+# Aap ka main logic yahan chalega
+if _name_ == "_main_":
+    print("--- Running NCCIA Intelligence Agent ---")
+    
+    # Farz karein yeh aap ka extracted data ya report hai
+    extracted_data = """
+    NCCIA Intelligence Summary:
+    - Raids: Not Reported
+    - Arrests: Not Reported
+    - FIRs: Not Reported
     """
-
-    response = gemini_client.models.generate_content(
-        model='gemini-3.8-flash',
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json"
-        )
-    )
-    return json.loads(response.text)
-
-if __name__ == "__main__":
-    print(f"--- Running NCCIA Intelligence Agent [{datetime.now().strftime('%Y-%m-%d')}] ---")
-    sample_raw_text = "NCCIA press update: Operations ongoing in Lahore and Karachi."
-    extracted = extract_nccia_data(sample_raw_text)
-    print("Extracted Data:", json.dumps(extracted, indent=2))
-    sample_raw_text = "NCCIA press update: Operations ongoing in Lahore and Karachi."
-    extracted = extract_nccia_data(sample_raw_text)
-    print("Extracted Data:", json.dumps(extracted, indent=2))
     
+    # Data extract hone ke baad email send karne wala function call kar dein
+    send_email_report(extracted_data)
+  
