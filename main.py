@@ -34,7 +34,7 @@ def send_email_report(report_content):
         print(f"Failed to send email: {e}")
 
 # Aap ka main logic yahan chalega
-if _name_ == "_main_":
+if _name_ == "__main__":
     print("--- Running NCCIA Intelligence Agent ---")
     
     # Farz karein yeh aap ka extracted data ya report hai
