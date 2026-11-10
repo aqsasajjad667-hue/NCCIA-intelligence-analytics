@@ -2,7 +2,7 @@ name: NCCIA Daily Intelligence Agent
 
 on:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 6 * * *' # Runs at 06:00
   workflow_dispatch:
 
 jobs:
@@ -25,5 +25,7 @@ jobs:
       - name: Run Data Extraction Agent
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         run: |
           python main.py
